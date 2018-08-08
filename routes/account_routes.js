@@ -1,10 +1,12 @@
 const express = require('express');
 const router = express.Router();
-const Account = require('../schemas/accountSchema.js');
+const Account = require('../schemas/accountSchema');
 
 const jwt = require('jsonwebtoken');
 const bcrypt = require('bcryptjs');
 const config = require('../config');
+
+const verifyToken = require('../verify_token');
 
 const checkIfExist = (account, notExistsCallback, existsCallback) => {
 	Account.findOne({email: account.email}, (err, account) => {
@@ -61,18 +63,11 @@ router.post('/login', (req, res) => {
 	});
 });
 
-router.get('/', (req, res) => {
-	let accountsArr = [];
-	Account.find({}, (err, accounts) => {
-		if (err) return res.status(500).send('Error on the server.');
-		accounts.forEach((account) => {
-			accountsArr.push(excludeData(account));
-		});
-		res.status(200).json(accountsArr);
-	});
+router.get('/logout', function(req, res) {
+  res.status(200).send({ auth: false, token: null });
 });
 
-router.get('/me', (req, res) => {
+router.get('/me', verifyToken, (req, res) => {
 	const token = req.headers['x-access-token'];
 	if (!token) return res.status(401).send({ auth: false, message: 'No token provided.' });
 
@@ -85,6 +80,17 @@ router.get('/me', (req, res) => {
 
 			res.status(200).send(excludeData(account));
 		});
+	});
+});
+
+router.get('/', (req, res) => {
+	let accountsArr = [];
+	Account.find({}, (err, accounts) => {
+		if (err) return res.status(500).send('Error on the server.');
+		accounts.forEach((account) => {
+			accountsArr.push(excludeData(account));
+		});
+		res.status(200).json(accountsArr);
 	});
 });
 
