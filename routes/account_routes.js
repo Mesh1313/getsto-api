@@ -27,6 +27,7 @@ router.post('/', (req, res) => {
 	const hashedPassword = bcrypt.hashSync(body.password, 8);
 	let account = new Account(body);
 	account.password = hashedPassword;
+	account.cars = [];
 
 	checkIfExist(account,
 		() => {
