@@ -5,6 +5,7 @@ const accountSchema = mongoose.Schema({
 	firstName: String,
 	lastName: String,
 	email: String,
+	phone: String,
 	password: String,
 	registrationDate: Number,
 	cars: [[{type: Schema.Types.ObjectId, ref: 'Car'}]]
