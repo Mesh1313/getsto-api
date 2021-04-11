@@ -1,7 +1,7 @@
 const mongoose = require('mongoose');
 const Schema = mongoose.Schema;
 
-const stoSchema = mongoose.Schema({
+const stoSchema = new Schema({
 	id: Number,
 	name: String,
 	title: String,
@@ -16,5 +16,9 @@ const stoSchema = mongoose.Schema({
 });
 
 const Sto = mongoose.model('Sto', stoSchema);
+const StoKy = mongoose.model('StoKy', stoSchema, 'kyiv_stos');
 
-module.exports = Sto;
+module.exports = {
+	sto: Sto,
+	stoKy: StoKy
+};

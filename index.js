@@ -1,3 +1,4 @@
+require('dotenv').config();
 const express = require('express');
 const app = express();
 const cors = require('cors');
@@ -12,7 +13,7 @@ app.use(bodyParser.json());
 
 app.use(logger);
 
-app.use('/api', api);
+app.use('/api/v1', api);
 
 db.connectToDb();
 

@@ -1,9 +1,8 @@
 const mongoose = require('mongoose');
 const config = require('./config.js');
-const mongoDB = config.dbConnectionUrl;
 
 const connectToDb = () => {
-	mongoose.connect(mongoDB, {useNewUrlParser: true});
+	mongoose.connect(config.dbConnectionUrl, { useNewUrlParser: true });
 	mongoose.Promise = global.Promise;
 	const db = mongoose.connection;
 	db.on('connected', console.log.bind(console, 'MongoDB connection opened'));

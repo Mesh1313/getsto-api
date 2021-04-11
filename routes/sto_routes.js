@@ -1,12 +1,14 @@
 const express = require('express');
 const router = express.Router();
 const Sto = require('../schemas/stoSchema.js');
-const Brand = require('../schemas/brandSchema.js');
-const Service = require('../schemas/serviceSchema.js');
-const ServiceType = require('../schemas/serviceTypeSchema.js');
+
+// This requires needed for populate
+require('../schemas/brandSchema.js');
+require('../schemas/serviceSchema.js');
+require('../schemas/serviceTypeSchema.js');
 
 router.get('/', (req, res) => {
-	Sto.find({})	
+	Sto.stoKy.find({})
 		.populate('service_type')
 		.populate('brands')
 		.populate('services')
